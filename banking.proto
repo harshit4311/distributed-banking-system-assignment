@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+
+package banking;
+
+
+service AccountService {
+rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
+rpc UpdateBalance (UpdateBalanceRequest) returns (UpdateBalanceResponse) {}
+}
+
+
+service TransactionService {
+rpc InitiateTransfer (InitiateTransferRequest) returns (InitiateTransferResponse) {}
+rpc GetTransactionHistory (GetTransactionHistoryRequest) returns (GetTransactionHistoryResponse) {}
+}
+
+
+message GetBalanceRequest {
+string user_id = 1;
+}
+message GetBalanceResponse {
+double balance = 1;
+string error = 2; // empty when success
+}
+
+
+message UpdateBalanceRequest {
+string user_id = 1;
+double new_balance = 2;
+}
+message UpdateBalanceResponse {
+bool success = 1;
+string error = 2;
+}
+
+
+message InitiateTransferRequest {
+string from_user_id = 1;
+string to_user_id = 2;
+double amount = 3;
+}
+message InitiateTransferResponse {
+bool success = 1;
+string error = 2;
+string transaction_id = 3;
+}
+
+
+message Transaction {
+string transaction_id = 1;
+string from_user_id = 2;
+string to_user_id = 3;
+double amount = 4;
+string timestamp = 5; // ISO8601
+}
+
+
+message GetTransactionHistoryRequest {
+string user_id = 1;
+}
+message GetTransactionHistoryResponse {
+repeated Transaction transactions = 1;
+string error = 2;
+}
